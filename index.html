@@ -334,6 +334,86 @@
                   color: #5c4a70;
             }
 
+            .location-line {
+                  display: flex;
+                  flex-wrap: wrap;
+                  align-items: center;
+                  gap: 12px;
+            }
+
+            .visual-route-btn {
+                  appearance: none;
+                  border: 1px solid rgba(255, 255, 255, 0.4);
+                  background: rgba(255, 255, 255, 0.18);
+                  color: white;
+                  font: inherit;
+                  font-weight: 700;
+                  font-size: 0.85rem;
+                  padding: 6px 14px;
+                  border-radius: 999px;
+                  cursor: pointer;
+                  white-space: nowrap;
+                  transition: background-color 0.2s ease, transform 0.2s ease;
+            }
+
+            .visual-route-btn:hover {
+                  background: rgba(255, 255, 255, 0.32);
+                  transform: translateY(-1px);
+            }
+
+            .route-modal {
+                  display: none;
+                  position: fixed;
+                  inset: 0;
+                  z-index: 1000;
+                  align-items: center;
+                  justify-content: center;
+                  padding: 24px;
+            }
+
+            .route-modal.is-open {
+                  display: flex;
+            }
+
+            .route-modal-backdrop {
+                  position: absolute;
+                  inset: 0;
+                  background: rgba(8, 20, 48, 0.72);
+            }
+
+            .route-modal-dialog {
+                  position: relative;
+                  z-index: 1;
+                  max-width: min(1400px, 100%);
+                  max-height: 100%;
+                  overflow: auto;
+                  background: white;
+                  border-radius: 16px;
+                  padding: 16px;
+                  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+            }
+
+            .route-modal-dialog img {
+                  display: block;
+                  width: 100%;
+                  height: auto;
+            }
+
+            .route-modal-close {
+                  position: absolute;
+                  top: 8px;
+                  right: 10px;
+                  width: 36px;
+                  height: 36px;
+                  border: none;
+                  border-radius: 50%;
+                  background: rgba(16, 42, 67, 0.85);
+                  color: white;
+                  font-size: 22px;
+                  line-height: 1;
+                  cursor: pointer;
+            }
+
             @media (max-width: 860px) {
                   .hero {
                         padding: 44px 22px;
@@ -365,7 +445,10 @@
                   <h1>How to Build Effective World Models for Embodied AI</h1>
                   <ln>ECCV 2026 Workshop</ln></br>
                   <ln>Date and time: 9:00-17:00, September 9, 2026</ln></br>
-                  <ln>Location: Malmö Arena Hotel Terrassen, Malmö, Sweden</ln>
+                  <div class="location-line">
+                        <ln>Location: Malmö Arena Hotel Terrassen, Malmö, Sweden</ln>
+                        <button type="button" class="visual-route-btn" id="visual-route-btn">visual route</button>
+                  </div>
                   <nav class="top-nav">
                         <a href="#about">About</a>
                         <a href="#schedule">Schedule</a>
@@ -723,5 +806,31 @@
                   How to build effective world models for embodied AI | ECCV 2026 Workshop
             </footer>
       </div>
+      <div class="route-modal" id="route-modal" role="dialog" aria-modal="true" aria-label="Visual route to the venue">
+            <div class="route-modal-backdrop" data-close-route></div>
+            <div class="route-modal-dialog">
+                  <button type="button" class="route-modal-close" data-close-route aria-label="Close">&times;</button>
+                  <img src="direction.png" alt="Direction to the WMEAI workshop venue">
+            </div>
+      </div>
+      <script>
+            (function () {
+                  var modal = document.getElementById("route-modal");
+                  var openBtn = document.getElementById("visual-route-btn");
+                  function openModal() {
+                        modal.classList.add("is-open");
+                  }
+                  function closeModal() {
+                        modal.classList.remove("is-open");
+                  }
+                  openBtn.addEventListener("click", openModal);
+                  modal.querySelectorAll("[data-close-route]").forEach(function (el) {
+                        el.addEventListener("click", closeModal);
+                  });
+                  document.addEventListener("keydown", function (e) {
+                        if (e.key === "Escape") closeModal();
+                  });
+            })();
+      </script>
 </body>
 </html>
